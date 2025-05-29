@@ -393,6 +393,7 @@ export class SupplierregComponent {
           phone: this.contactno,
           email: this.email,
           web_site: this.website,
+          pannumber: this.panno,
           pincode: this.pincode,
           currid: this.currencyid,
           stateid: Number(this.selectedStateID),
@@ -470,15 +471,32 @@ export class SupplierregComponent {
       }
     });
   }
+  fileUrls: { [key: string]: string } = {};
+
   onFileSelected(event: any, fieldName: string) {
     const fileInput = event.target as HTMLInputElement;
     const file: File | undefined = fileInput.files?.[0];
+
     if (file) {
       this.uploadedFiles[fieldName] = file;
+
+      // Create a blob URL for viewing
+      const fileURL = URL.createObjectURL(file);
+      this.fileUrls[fieldName] = fileURL;
     } else {
-      delete this.uploadedFiles[fieldName]; // Remove the previously saved file
+      delete this.uploadedFiles[fieldName];
+      delete this.fileUrls[fieldName];
     }
   }
+  viewFile(fieldName: string) {
+    const fileUrl = this.fileUrls[fieldName];
+    if (fileUrl) {
+      window.open(fileUrl, '_blank');
+    } else {
+      alert('No file uploaded yet.');
+    }
+  }
+
   clear() {
     this.type = '';
     this.supplier = 'General'
