@@ -63,6 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
     563: 'poclose3',
     76: 'clearingFrechargesApprovals',
     93: 'creditdaysApprovals',
+    231: 'IndentApprovalPending',
     488: 'SupplierRegAppApurchase',
     487: 'SupplierRegAppFin',
     489: 'SupplierRegAppTec',
@@ -309,10 +310,8 @@ export class AppComponent implements OnInit, OnDestroy {
   //                   if (this.routeMap[res.SubMenuId]) {
   //                     res.route = this.routeMap[res.SubMenuId];
   //                     console.log(res.route);
-
   //                   }
   //                 });
-
   //                 this.SubMenuArr = structuredClone(this.SubMenuArr)
   //                 this.originalSubMenuArr = structuredClone(this.SubMenuArr)
   //               }
@@ -377,7 +376,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }, 300);
     }
   }
-
   private assignRoutesToSubMenus(): void {
     this.SubMenuArr.forEach((item: any) => {
       if (this.routeMap[item.SubMenuId]) {
@@ -385,18 +383,15 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   private cloneSubMenuArrays(): void {
     this.SubMenuArr = structuredClone(this.SubMenuArr);
     this.originalSubMenuArr = structuredClone(this.SubMenuArr);
   }
-
   private displayError(message: string): void {
     this.Error = message;
     this.userHeader = 'Error';
     this.opendialog();
   }
-
   @Input() isSidenavOpen: boolean = false;
   sidenavClass = 'lg';
   isSmallScreen: boolean = false;

@@ -19,17 +19,44 @@ export class SupplierregAppPurComponent {
     this.table()
   }
   empid: number = 0
-  tableArray: any[] = []
-  loadArray: any[] = []
   supcheck: boolean = false
   subcheck: boolean = false
   cuscheck: boolean = false
+  today: any
+  suppliercode: number | null = null
+  suppliername: String | null = null
+  phonenumber: number | null = null
+  email: String | null = null
+  fax: String | null = null
+  website: String | null = null
+  pannumber: String | null = null
+  address: String | null = null
+  CountryName: string | null = null
+  StateName: string | null = null
+  AreaName: String | null = null
+  pincode: String | null = null
+  Creditperiod: String | null = null
+  executivename: string | null = null
+  id: number | null = null
+  establishment: number | null = null
+  majorname: string | null = null
+  contactperson: string | null = null
+  org_type: string | null = null
+  partyid: number | null = null
+  AddressProofType: string | null = null
+  //Array
+  tableArray: any[] = []
+  loadArray: any[] = []
+  orgArray: any[] = []
+  selectedrowArray: any[] = []
+  lastselectedRow: any[] = []
+  inputArray: any[] = []
+  approveArray: any[] = []
   load() {
     this.service.load(this.empid).subscribe((result: any) => {
       this.loadArray = result
     })
   }
-  orgArray: any[] = []
   organisation() {
     this.service.organisation().subscribe((result: any) => {
       this.orgArray = result
@@ -38,23 +65,27 @@ export class SupplierregAppPurComponent {
   table() {
     this.service.table().subscribe((result: any) => {
       this.tableArray = result
+      console.log(this.tableArray);
     })
-        
-         
-
   }
-  selectedrowArray: any[] = []
-  lastselectedRow: any[] = []
-  inputArray: any[] = []
+  viewPanCard(): void {
+    console.log(this.partyid);
+    if (this.partyid) {
+      const url = `http://192.168.99.80:5000/Purchase/Approvals/api/supplier/pancard/${this.partyid}`;
+      window.open(url, '_blank');
+    }
+  }
   select(event: any, row: any) {
     this.approveArray = []
     this.lastselectedRow = []
     this.inputArray = []
     if (event.target.checked) {
       this.selectedrowArray.push(row)
+      console.log(this.selectedrowArray);
     }
     else {
       this.selectedrowArray = this.selectedrowArray.filter(item => item !== row)
+      console.log(this.selectedrowArray);
       this.lastselectedRow = []
       this.inputArray = []
       this.suppliercode = null
@@ -99,26 +130,6 @@ export class SupplierregAppPurComponent {
       }
     }
   }
-  suppliercode: number | null = null
-  suppliername: String | null = null
-  phonenumber: number | null = null
-  email: String | null = null
-  fax: String | null = null
-  website: String | null = null
-  pannumber: String | null = null
-  address: String | null = null
-  CountryName: string | null = null
-  StateName: string | null = null
-  AreaName: String | null = null
-  pincode: String | null = null
-  Creditperiod: String | null = null
-  executivename: string | null = null
-  id: number | null = null
-  establishment: number | null = null
-  majorname: string | null = null
-  contactperson: string | null = null
-  org_type: string | null = null
-  partyid: number | null = null
   inputfield() {
     if (this.lastselectedRow.length > 0) {
       this.suppliercode = this.lastselectedRow[0].code
@@ -126,7 +137,7 @@ export class SupplierregAppPurComponent {
       this.phonenumber = this.lastselectedRow[0].phone
       this.email = this.lastselectedRow[0].email
       this.fax = this.lastselectedRow[0].fax
-      this.website = this.lastselectedRow[0].website
+      this.website = this.lastselectedRow[0].web_site
       this.pannumber = this.lastselectedRow[0].pannumber
       this.address = this.lastselectedRow[0].address
       this.CountryName = this.lastselectedRow[0].CountryName
@@ -134,6 +145,7 @@ export class SupplierregAppPurComponent {
       this.AreaName = this.lastselectedRow[0].AreaName
       this.pincode = this.lastselectedRow[0].pincode
       this.Creditperiod = this.lastselectedRow[0].Creditperiod
+      this.AddressProofType = this.lastselectedRow[0].AddressProofType
       if (this.lastselectedRow[0].IsSupplier == 'Y') {
         this.supcheck = true
       }
@@ -162,8 +174,6 @@ export class SupplierregAppPurComponent {
       this.partyid = this.inputArray[0].partyid
     }
   }
-  approveArray: any[] = []
-  today: any
   approve() {
     if (this.selectedrowArray.length > 0) {
       const datePipe = new DatePipe('en-US');
@@ -180,9 +190,7 @@ export class SupplierregAppPurComponent {
       this.opendialog()
       this.dialogRef.afterClosed().subscribe((result: boolean) => {
         if (result) {
-
           console.log(this.approveArray);
-
           this.service.approve(this.approveArray).subscribe((result: any) => {
             this.Error = result.message
             this.userHeader = 'Information'
@@ -197,7 +205,6 @@ export class SupplierregAppPurComponent {
       this.opendialog()
     }
   }
-
   Error: String = ''
   userHeader: String = ''
   dialogRef!: MatDialogRef<DialogCompComponent>
@@ -207,36 +214,51 @@ export class SupplierregAppPurComponent {
     })
   }
   clear() {
-    this.tableArray = []
-    this.selectedrowArray = []
-    this.lastselectedRow = []
-    this.inputArray = []
-    this.suppliercode = null
-    this.suppliername = null
-    this.phonenumber = null
-    this.email = null
-    this.fax = null
-    this.website = null
-    this.pannumber = null
-    this.address = null
-    this.CountryName = null
-    this.StateName = null
-    this.AreaName = null
-    this.pincode = null
-    this.Creditperiod = null
-    this.executivename = null
-    this.id = null
-    this.establishment = null
-    this.majorname = null
-    this.contactperson = null
-    this.partyid = null
-    this.supcheck = false
-    this.subcheck = false
-    this.cuscheck = false
-    this.org_type = null
-    this.partyid = null
-    this.Error = ''
-    this.userHeader = ''
-    this.table()
+    this.Error = 'Are you sure to Clear?'
+    this.userHeader = 'Warning!!!'
+    this.opendialog()
+    this.dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.tableArray = []
+        this.selectedrowArray = []
+        this.lastselectedRow = []
+        this.inputArray = []
+        this.suppliercode = null
+        this.suppliername = null
+        this.phonenumber = null
+        this.email = null
+        this.fax = null
+        this.website = null
+        this.pannumber = null
+        this.address = null
+        this.CountryName = null
+        this.StateName = null
+        this.AreaName = null
+        this.pincode = null
+        this.Creditperiod = null
+        this.executivename = null
+        this.id = null
+        this.establishment = null
+        this.majorname = null
+        this.contactperson = null
+        this.partyid = null
+        this.supcheck = false
+        this.subcheck = false
+        this.cuscheck = false
+        this.org_type = null
+        this.partyid = null
+        this.Error = ''
+        this.userHeader = ''
+        this.AddressProofType = ''
+        this.table()
+      }
+    })
+  }
+  viewAddress() {
+    console.log(this.partyid);
+    if (this.partyid) {
+      const url = `http://192.168.99.80:5000/Purchase/Approvals/api/supplier/addressproof/${this.partyid}`;
+      window.open(url, '_blank');
+    }
   }
 }

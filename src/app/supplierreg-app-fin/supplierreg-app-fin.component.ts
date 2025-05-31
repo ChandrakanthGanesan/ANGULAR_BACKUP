@@ -18,14 +18,13 @@ export class SupplierregAppFinComponent {
     this.service.pType().subscribe((result: any) => {
       this.partyTypeArray = result
     })
-
     this.service.ledgergrp().subscribe((result: any) => {
       this.ledgergrpArray = result
     })
   }
   empid: number = 0
   empname: string = ''
-  vendor: boolean = true
+  vendor: boolean = false
   partyType: string = ''
   ledgergrp: string = ''
   capital: number | null = null
@@ -36,6 +35,7 @@ export class SupplierregAppFinComponent {
   currency: string | null = ''
   partyid: string | null = ''
   Ledgername: string | null = ''
+  smeno = ''
   empArray: any[] = []
   tableArray: any[] = []
   selectArray: any[] = []
@@ -47,6 +47,7 @@ export class SupplierregAppFinComponent {
   load() {
     this.service.load().subscribe((result: any) => {
       this.tableArray = result
+      console.log(this.tableArray);
       this.service.empid(this.empid).subscribe((result: any) => {
         this.empArray = result
         this.empname = this.empArray[0].empname
@@ -57,9 +58,24 @@ export class SupplierregAppFinComponent {
     this.lastrowArray = []
     if (event.target.checked) {
       this.selectArray.push(row)
+      console.log(this.selectArray);
+      console.log(this.selectArray[this.selectArray.length - 1].gstno);
+      if (this.selectArray[this.selectArray.length - 1].gstno == '') {
+        this.vendor = false
+      } else {
+        this.vendor = true
+      }
     }
     else {
       this.selectArray = this.selectArray.filter(item => item !== row)
+      console.log(this.selectArray);
+      if (this, this.selectArray.length > 0) {
+        if (this.selectArray[this.selectArray.length - 1].gstno == '') {
+          this.vendor = false
+        } else {
+          this.vendor = true
+        }
+      }
       this.capital = null
       this.banker = ''
       this.ssi = ''
@@ -70,11 +86,13 @@ export class SupplierregAppFinComponent {
       this.Ledgername = ''
       this.ledgergrp = ''
       this.partyType = ''
+      this.smeno = ''
     }
     if (this.selectArray.length > 0) {
       this.lastrowArray.push(this.selectArray.length > 0 ? this.selectArray[this.selectArray.length - 1] : null)
       this.service.input(this.lastrowArray[0].code).subscribe((result: any) => {
         this.inputArray = result
+        console.log(this.inputArray)
         this.capital = this.inputArray[0].capital
         this.banker = this.inputArray[0].bankersname
         this.ssi = this.inputArray[0].ssiregno
@@ -82,6 +100,7 @@ export class SupplierregAppFinComponent {
         this.ecc_no = this.inputArray[0].sup_eccno
         this.partyid = this.inputArray[0].partyid
         this.Ledgername = this.inputArray[0].name
+        this.smeno = this.inputArray[0].smeno
         this.service.currency(this.inputArray[0].currid).subscribe((result: any) => {
           this.currency = result[0].CurrDesc
         })
@@ -91,8 +110,10 @@ export class SupplierregAppFinComponent {
         this.service.ledger(this.inputArray[0].partygroup).subscribe((result: any) => {
           this.ledgergrp = result[0].xxx
         })
-
       })
+    }
+    else {
+      this.vendor = false
     }
   }
   approve() {
@@ -110,7 +131,7 @@ export class SupplierregAppFinComponent {
       this.userHeader = 'Save'
       this.opendialog()
       this.dialogRef.afterClosed().subscribe((result: boolean) => {
-        console.log(this.approveArray);        
+        console.log(this.approveArray);
         if (result) {
           this.service.approve(this.approveArray).subscribe((result: any) => {
             this.Error = result.message
@@ -144,22 +165,32 @@ export class SupplierregAppFinComponent {
     }
   }
   clear() {
-    this.partyType = ''
-    this.ledgergrp = ''
-    this.tableArray = []
-    this.selectArray = []
-    this.lastrowArray = []
-    this.inputArray = []
-    this.approveArray = []
-    this.capital = null
-    this.banker = ''
-    this.ssi = ''
-    this.gst = ''
-    this.ecc_no = ''
-    this.currency = ''
-    this.partyid = ''
-    this.Ledgername = ''
-    this.load()
+    this.Error = 'Are your sure to Clear?'
+    this.userHeader = 'Warning!!!'
+    this.opendialog()
+    this.dialogRef.afterClosed().subscribe((result: boolean) => {
+      console.log(this.approveArray);
+      if (result) {
+        this.tableArray = []
+        this.selectArray = []
+        this.lastrowArray = []
+        this.inputArray = []
+        this.approveArray = []
+        this.vendor = false
+        this.smeno = ''
+        this.capital = null
+        this.banker = ''
+        this.ssi = ''
+        this.partyType = ''
+        this.ledgergrp = ''
+        this.gst = ''
+        this.ecc_no = ''
+        this.currency = ''
+        this.partyid = ''
+        this.Ledgername = ''
+        this.load()
+      }
+    })
   }
   Error: String = ''
   userHeader: String = ''
@@ -169,4 +200,26 @@ export class SupplierregAppFinComponent {
       disableClose: true, width: 'auto', data: { Msg: this.Error, Type: this.userHeader }
     })
   }
+  viewBankDetails(): void {
+    console.log(this.partyid);
+    if (this.partyid) {
+      const url = `http://192.168.99.80:5000/Purchase/Approvals/api/supplier/bankdetails/${this.partyid}`;
+      window.open(url, '_blank');
+    }
+  }
+  viewgst(): void {
+    console.log(this.partyid);
+    if (this.partyid) {
+      const url = `http://192.168.99.80:5000/Purchase/Approvals/api/supplier/gstcertificate/${this.partyid}`;
+      window.open(url, '_blank');
+    }
+  }
+  viewsme(): void {
+    console.log(this.partyid);
+    if (this.partyid) {
+      const url = `http://192.168.99.80:5000/Purchase/Approvals/api/supplier/smecertificate/${this.partyid}`;
+      window.open(url, '_blank');
+    }
+  }
+
 }

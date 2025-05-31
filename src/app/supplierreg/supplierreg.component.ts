@@ -438,8 +438,6 @@ export class SupplierregComponent {
         Object.entries(supplierData).forEach(([key, value]) => {
           formData.append(key, value);
         });
-
-        // File fields
         const fileFields = {
           PanCard: 'panCard',
           GstCertificate: 'gstCertificate',
@@ -455,7 +453,6 @@ export class SupplierregComponent {
             console.log(formData);
           }
         }
-        // Submit to backend
         this.http.post('http://localhost:5000/Purchase/Master/supregsaveDocuments', formData).subscribe({
           next: (res: any) => {
             console.log('Upload successful', res);
@@ -493,79 +490,87 @@ export class SupplierregComponent {
     if (fileUrl) {
       window.open(fileUrl, '_blank');
     } else {
-      alert('No file uploaded yet.');
+      this.Error = 'No file uploaded yet'
+      this.userHeader = 'Information';
+      this.opendialog();
     }
   }
-
   clear() {
-    this.type = '';
-    this.supplier = 'General'
-    this.show = false;
-    this.tabhide = false;
-    this.firstcard = true
-    this.orghide = false
-    this.suppliercode = null
-    this.selectedCountryID = null
-    this.selectedStateID = null
-    this.table = false
-    this.area = null
-    this.newOrganisation = ''
-    this.selectorgname = ''
-    this.suppname = ''
-    this.contactperson = ''
-    this.contactno = ''
-    this.email = ''
-    this.faxno = ''
-    this.website = ''
-    this.panno = ''
-    this.Establishyear = ''
-    this.executive = ''
-    this.majorCust = ''
-    this.companyaddr = ''
-    this.pincode = ''
-    this.creditperiod = ''
-    this.totalcapInv = ''
-    this.Bankersname = ''
-    this.ssi = ''
-    this.gstno = ''
-    this.registeredVendor = true
-    this.ecc = ''
-    this.currencytype = ''
-    this.currencyid
-    this.sme = ''
-    this.tngstno = ''
-    this.cgstno = ''
-    this.servicetaxNo = ''
-    this.partytype = ''
-    this.ledger = ''
-    this.selectedLedger = null
-    this.selectedCurrency = null;
-    this.machdetails = ''
-    this.measuring = ''
-    this.qualitySystem = ''
-    this.production = ''
-    this.quality = ''
-    this.others = ''
-    this.total = ''
-    this.weeklyholiday = ''
-    this.workinghours = ''
-    this.shiftDetails = ''
-    this.shiftTimings = ''
-    this.expansionPlan = ''
-    this.sanctionedPowAvl = ''
-    this.StandByPower = ''
-    this.userHeader = ''
-    this.Error = ''
-    this.Addressprooftype = ''
-    this.gstshow = true
-    this.stateArray = []
-    this.areaArray = []
-    this.newOrgArray = []
-    this.SaveArray = []
-    this.partyArray = []
-    this.ledgerArrayList = []
-    this.partytypeListArray = []
-    this.uploadedFiles = {};
+    this.Error = 'Are your sure to Clear?'
+    this.userHeader = 'Warning!!!'
+    this.opendialog()
+    this.dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.type = '';
+        this.supplier = 'General'
+        this.show = false;
+        this.tabhide = false;
+        this.firstcard = true
+        this.orghide = false
+        this.suppliercode = null
+        this.selectedCountryID = null
+        this.selectedStateID = null
+        this.table = false
+        this.area = null
+        this.newOrganisation = ''
+        this.selectorgname = ''
+        this.suppname = ''
+        this.contactperson = ''
+        this.contactno = ''
+        this.email = ''
+        this.faxno = ''
+        this.website = ''
+        this.panno = ''
+        this.Establishyear = ''
+        this.executive = ''
+        this.majorCust = ''
+        this.companyaddr = ''
+        this.pincode = ''
+        this.creditperiod = ''
+        this.totalcapInv = ''
+        this.Bankersname = ''
+        this.ssi = ''
+        this.gstno = ''
+        this.registeredVendor = true
+        this.ecc = ''
+        this.currencytype = ''
+        this.currencyid
+        this.sme = ''
+        this.tngstno = ''
+        this.cgstno = ''
+        this.servicetaxNo = ''
+        this.partytype = ''
+        this.ledger = ''
+        this.selectedLedger = null
+        this.selectedCurrency = null;
+        this.machdetails = ''
+        this.measuring = ''
+        this.qualitySystem = ''
+        this.production = ''
+        this.quality = ''
+        this.others = ''
+        this.total = ''
+        this.weeklyholiday = ''
+        this.workinghours = ''
+        this.shiftDetails = ''
+        this.shiftTimings = ''
+        this.expansionPlan = ''
+        this.sanctionedPowAvl = ''
+        this.StandByPower = ''
+        this.userHeader = ''
+        this.Error = ''
+        this.Addressprooftype = ''
+        this.gstshow = true
+        this.stateArray = []
+        this.areaArray = []
+        this.newOrgArray = []
+        this.SaveArray = []
+        this.partyArray = []
+        this.ledgerArrayList = []
+        this.partytypeListArray = []
+        this.uploadedFiles = {};
+      }
+    })
   }
   partyTypefun() {
     if (this.currencyid) {

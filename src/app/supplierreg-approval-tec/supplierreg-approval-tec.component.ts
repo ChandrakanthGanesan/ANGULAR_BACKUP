@@ -18,12 +18,28 @@ export class SupplierregApprovalTecComponent {
     this.load()
   }
   empid: number | null = null
+  partyid: number | null = null
+  MachineryDetails: string | null = null
+  Measuring: string | null = null
+  Qs: string | null = null
+  production: string | null = null
+  quality: string | null = null
+  others: string | null = null
+  total: string | null = null
+  weeklyHoliday: string | null = null
+  workingHours: string | null = null
+  shiftDetails: string | null = null
+  shiftTimings: string | null = null
+  exp_plan: string | null = null
+  sanctioned_pow_Avl: string | null = null
+  standBy_Power: string | null = null
   //
   loadArray: any[] = []
   tableArray: any[] = []
   selectedArray: any = []
   lastselectedArray: any[] = []
   inputArray: any[] = []
+  approveArray: any[] = []
   load() {
     this.service.empid(this.empid).subscribe((result: any) => {
       this.loadArray = result
@@ -81,22 +97,6 @@ export class SupplierregApprovalTecComponent {
       }
     }
   }
-  partyid: number | null = null
-  MachineryDetails: string | null = null
-  Measuring: string | null = null
-  Qs: string | null = null
-  production: string | null = null
-  quality: string | null = null
-  others: string | null = null
-  total: string | null = null
-  weeklyHoliday: string | null = null
-  workingHours: string | null = null
-  shiftDetails: string | null = null
-  shiftTimings: string | null = null
-  exp_plan: string | null = null
-  sanctioned_pow_Avl: string | null = null
-  standBy_Power: string | null = null
-  approveArray: any[] = []
   approve() {
     console.log(this.selectedArray);
     if (this.selectedArray.length > 0) {
@@ -129,7 +129,6 @@ export class SupplierregApprovalTecComponent {
       this.opendialog()
     }
   }
-
   Error: string = ''
   userHeader: string = ''
   dialogRef!: MatDialogRef<DialogCompComponent>
@@ -139,29 +138,37 @@ export class SupplierregApprovalTecComponent {
     })
   }
   clear() {
-    this.loadArray = []
-    this.tableArray = []
-    this.selectedArray = []
-    this.lastselectedArray = []
-    this.inputArray = []
-    this.partyid = null
-    this.MachineryDetails = null
-    this.Measuring = null
-    this.Qs = null
-    this.production = null
-    this.quality = null
-    this.others = null
-    this.total = null
-    this.weeklyHoliday = null
-    this.workingHours = null
-    this.shiftDetails = null
-    this.shiftTimings = null
-    this.exp_plan = null
-    this.sanctioned_pow_Avl = null
-    this.standBy_Power = null
-    this.approveArray = []
-    this.Error = ''
-    this.userHeader = ''
-    this.load()
+    this.Error = 'Are your sure to Clear?'
+    this.userHeader = 'Warning!!!'
+    this.opendialog()
+    this.dialogRef.afterClosed().subscribe((result: boolean) => {
+      console.log(this.approveArray);
+      if (result) {
+        this.loadArray = []
+        this.tableArray = []
+        this.selectedArray = []
+        this.lastselectedArray = []
+        this.inputArray = []
+        this.partyid = null
+        this.MachineryDetails = null
+        this.Measuring = null
+        this.Qs = null
+        this.production = null
+        this.quality = null
+        this.others = null
+        this.total = null
+        this.weeklyHoliday = null
+        this.workingHours = null
+        this.shiftDetails = null
+        this.shiftTimings = null
+        this.exp_plan = null
+        this.sanctioned_pow_Avl = null
+        this.standBy_Power = null
+        this.approveArray = []
+        this.Error = ''
+        this.userHeader = ''
+        this.load()
+      }
+    })
   }
 }
