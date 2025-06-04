@@ -112,6 +112,7 @@ export class SupplierregAppPurComponent {
       this.cuscheck = false
       this.org_type = null
       this.partyid = null
+      this.AddressProofType = ''
     }
     if (this.selectedrowArray.length > 0) {
       this.lastselectedRow.push(this.selectedrowArray.length > 0 ? this.selectedrowArray[this.selectedrowArray.length - 1] : null)
@@ -175,6 +176,7 @@ export class SupplierregAppPurComponent {
     }
   }
   approve() {
+    this.approveArray = []
     if (this.selectedrowArray.length > 0) {
       const datePipe = new DatePipe('en-US');
       const formattedDate = datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss.SSS');
@@ -190,12 +192,42 @@ export class SupplierregAppPurComponent {
       this.opendialog()
       this.dialogRef.afterClosed().subscribe((result: boolean) => {
         if (result) {
-          console.log(this.approveArray);
           this.service.approve(this.approveArray).subscribe((result: any) => {
             this.Error = result.message
             this.userHeader = 'Information'
             this.opendialog()
-            this.clear()
+            this.tableArray = []
+            this.selectedrowArray = []
+            this.lastselectedRow = []
+            this.inputArray = []
+            this.suppliercode = null
+            this.suppliername = null
+            this.phonenumber = null
+            this.email = null
+            this.fax = null
+            this.website = null
+            this.pannumber = null
+            this.address = null
+            this.CountryName = null
+            this.StateName = null
+            this.AreaName = null
+            this.pincode = null
+            this.Creditperiod = null
+            this.executivename = null
+            this.id = null
+            this.establishment = null
+            this.majorname = null
+            this.contactperson = null
+            this.partyid = null
+            this.supcheck = false
+            this.subcheck = false
+            this.cuscheck = false
+            this.org_type = null
+            this.partyid = null
+            this.Error = ''
+            this.userHeader = ''
+            this.AddressProofType = ''
+            this.table()
           })
         }
       })

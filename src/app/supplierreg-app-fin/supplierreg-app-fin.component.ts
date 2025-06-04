@@ -117,6 +117,7 @@ export class SupplierregAppFinComponent {
     }
   }
   approve() {
+    this.approveArray = []
     const datePipe = new DatePipe('en-US');
     const formattedDate = datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss.SSS');
     if (this.selectArray.length > 0) {
@@ -131,23 +132,24 @@ export class SupplierregAppFinComponent {
       this.userHeader = 'Save'
       this.opendialog()
       this.dialogRef.afterClosed().subscribe((result: boolean) => {
-        console.log(this.approveArray);
+        console.log(this.approveArray, 'approveArray');
         if (result) {
           this.service.approve(this.approveArray).subscribe((result: any) => {
             this.Error = result.message
             this.userHeader = 'Information'
             this.opendialog()
-            this.clear()
-            this.partyType = ''
-            this.ledgergrp = ''
             this.tableArray = []
             this.selectArray = []
             this.lastrowArray = []
             this.inputArray = []
             this.approveArray = []
+            this.vendor = false
+            this.smeno = ''
             this.capital = null
             this.banker = ''
             this.ssi = ''
+            this.partyType = ''
+            this.ledgergrp = ''
             this.gst = ''
             this.ecc_no = ''
             this.currency = ''
@@ -221,5 +223,4 @@ export class SupplierregAppFinComponent {
       window.open(url, '_blank');
     }
   }
-
 }

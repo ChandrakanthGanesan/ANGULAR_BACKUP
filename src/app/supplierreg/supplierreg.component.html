@@ -24,19 +24,19 @@
     <div class="card-body p-3">
         <div class="row" style="padding:10px; border: 1px solid rgb(231, 231, 231); background-color:#f5f5f5;">
             <div class="col-12 col-lg-4 mb-2">
-                <input type="radio" class="form-check-input" [checked]="supplier === 'General'"
+                <input type="radio" id="general" class="form-check-input" [checked]="supplier === 'General'"
                     (change)="SelectedSupplier($event, 'General')" />
-                <label class="form-check-label">General Supplier</label>
+                <label class="form-check-label" for="general">General Supplier</label>
             </div>
             <div class="col-12 col-lg-4">
-                <input type="radio" class="form-check-input" [checked]="supplier === 'Production'"
+                <input type="radio" id="production" class="form-check-input" [checked]="supplier === 'Production'"
                     (change)="SelectedSupplier($event, 'Production')" />
-                <label class="form-check-label">Production Supplier</label>
+                <label class="form-check-label" for="production">Production Supplier</label>
             </div>
         </div>
     </div>
     <h1>Entry</h1>
-    <table class="table table-bordered" style="width: 100%; border: 1px solid #ddd;" *ngIf="table">
+    <table class=" table table-bordered" style="width: 100%; border: 1px solid #ddd;" *ngIf="table">
         <thead style="display: table; width: 100%; table-layout: fixed; background-color: #3f51b5; color: white;">
             <tr>
                 <th style="width: 30%;">Code</th>
@@ -116,7 +116,8 @@
                     <div class="col-12 col-md-3 mb-2">
                         <label class="form-check-label">Organization_Type <span class="text-danger">*</span></label>
                         <select class="form-select" [(ngModel)]="selectorgname" (change)="selectorgnamefunc()">
-                            <option *ngFor="let org of OrganArray" [value]="org.id">{{ org.orgname }}</option>
+                            <option *ngFor="let org of OrganArray" [value]="org.id">{{ org.orgname }}
+                            </option>
                         </select>
                     </div>
                     <div class="col-12 col-md-1 mt-4 mb-2">
@@ -191,7 +192,8 @@
                     <div class="col-12 col-md-4 mb-2">
                         <label class="form-check-label">Area/City <span class="text-danger">*</span></label>
                         <select class="form-select" [(ngModel)]="area" name="" (change)="selectedArea()">
-                            <option *ngFor="let area of areaArray" [value]="area.areaid">{{area.areaname}}</option>
+                            <option *ngFor="let area of areaArray" [value]="area.areaid">
+                                {{area.areaname}}</option>
                         </select>
                     </div>
                 </div>

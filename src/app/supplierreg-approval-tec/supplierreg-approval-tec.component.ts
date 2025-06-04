@@ -119,6 +119,30 @@ export class SupplierregApprovalTecComponent {
             this.Error = result.message
             this.userHeader = 'Information'
             this.opendialog()
+            this.loadArray = []
+            this.tableArray = []
+            this.selectedArray = []
+            this.lastselectedArray = []
+            this.inputArray = []
+            this.partyid = null
+            this.MachineryDetails = null
+            this.Measuring = null
+            this.Qs = null
+            this.production = null
+            this.quality = null
+            this.others = null
+            this.total = null
+            this.weeklyHoliday = null
+            this.workingHours = null
+            this.shiftDetails = null
+            this.shiftTimings = null
+            this.exp_plan = null
+            this.sanctioned_pow_Avl = null
+            this.standBy_Power = null
+            this.approveArray = []
+            this.Error = ''
+            this.userHeader = ''
+            this.load()
           })
         }
       })
